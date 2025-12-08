@@ -16,6 +16,7 @@ import { styled } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import * as z from "zod";
+import setWithExpiry from "../../functions/setWithExpiry";
 
 const registerSchema = z.object({
   email: z
@@ -100,8 +101,8 @@ export default function SignIn() {
       return;
     }
 
-    localStorage.setItem("userEmail", emailValue);
-    localStorage.setItem("userPassword", passwordValue);
+    setWithExpiry("userEmail", emailValue, 600000);
+    setWithExpiry("userPassword", passwordValue, 600000);
 
     console.log("Valid data:", validationResult.data);
 
@@ -109,7 +110,7 @@ export default function SignIn() {
   };
 
   // функция для проверки правильности введения пароля и почты
-  const validateWithZod = () => {
+  function validateWithZod() {
     const formData = {
       email: emailValue,
       password: passwordValue,
@@ -141,7 +142,7 @@ export default function SignIn() {
       }
       return { isValid: false, data: null };
     }
-  };
+  }
 
   return (
     <>

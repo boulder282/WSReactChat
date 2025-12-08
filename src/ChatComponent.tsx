@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router";
 
 export const ChatComponent = () => {
   const [messages, setMessages] = useState([]);
   const [isConnected, setIsConnected] = useState(false);
   const ws = useRef(null);
   const [messageValue, setMessageValue] = useState(""); // Исправлено название и инициализация
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Подключаемся к WebSocket серверу
@@ -87,6 +89,13 @@ export const ChatComponent = () => {
         disabled={!isConnected || !messageValue.trim()}
       >
         Send Message
+      </button>
+      <button
+        onClick={() => {
+          navigate("/userinfo");
+        }}
+      >
+        navigate to user info page
       </button>
     </div>
   );

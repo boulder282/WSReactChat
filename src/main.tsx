@@ -5,12 +5,18 @@ import SignIn from "./components/registration/registrationForm";
 import App from "./App";
 import { ChatComponent } from "./ChatComponent";
 import ProtectedRoute from "./routing/ProtectedRoute";
+import UserInfoPage from "./components/UserInfo/userInfo";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: App,
     children: [
+      {
+        path: "auth",
+        element: <SignIn />,
+      },
       {
         index: true,
         element: (
@@ -20,8 +26,8 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "auth",
-        element: <SignIn />,
+        path: "userinfo",
+        element: <UserInfoPage />,
       },
     ],
   },

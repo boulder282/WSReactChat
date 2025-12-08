@@ -1,4 +1,5 @@
 import { Navigate } from "react-router";
+import getWithExpiry from "../functions/getWithExpiry";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -7,8 +8,8 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const isAuthenticated = () => {
     // Проверяем наличие данных в localStorage
-    const userEmail = localStorage.getItem("userEmail");
-    const userPassword = localStorage.getItem("userPassword");
+    const userEmail = getWithExpiry("userEmail");
+    const userPassword = getWithExpiry("userPassword");
     return !!(userEmail && userPassword);
   };
 
