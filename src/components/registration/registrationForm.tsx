@@ -1,14 +1,13 @@
-import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useFormValidation } from "../../hooks/useFormValidation";
-import { setWithExpiry } from "../../functions/setWithExpiry";
-import { getWithExpiry } from "../../functions/getWithExpiry";
+import useUserInfoStore from "../../store/userInfoStore";
 
 export default function SignIn() {
+  const { setInfo } = useUserInfoStore();
   const [emailValue, setEmailValue] = useState<string>("");
   const [passwordValue, setPasswordValue] = useState<string>("");
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [usernameValue, setUsernameValue] = useState<string>("");
   const navigate = useNavigate();
   const {
     emailError,
@@ -17,67 +16,38 @@ export default function SignIn() {
     passwordErrorMessage,
     validateForm,
   } = useFormValidation();
+  const isUsernameValid = usernameValue.length >= 3;
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const userEmail = await getWithExpiry("userEmail");
-        const userPassword = await getWithExpiry("userPassword");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-        // Если пользователь уже залогинен - редирект на главную
-        if (userEmail && userPassword) {
-          navigate("/");
-        }
-        // Если не залогинен - остаемся на странице sign in
-      } catch (error) {
-        console.error("Error checking authentication:", error);
-      } finally {
-        setIsCheckingAuth(false);
-      }
-    };
-
-    checkAuth();
-  }, [navigate]);
-
-  const handleRedirection = () => {
-    navigate("/");
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    const validationResult = validateForm(emailValue, passwordValue);
-
-    if (!validationResult.isValid) {
-      return;
-    }
+    const validation = validateForm(emailValue, passwordValue);
+    if (!validation.isValid) return;
 
     try {
-      // Сохраняем данные асинхронно
-      await setWithExpiry("userEmail", emailValue, 600000); // 10 минут
-      await setWithExpiry("userPassword", passwordValue, 600000);
+      const res = await fetch("/api/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: emailValue,
+          password: passwordValue,
+          username: usernameValue,
+        }),
+      });
 
-      console.log("Valid data:", validationResult.data);
-
-      // Только после успешного сохранения делаем редирект
-      handleRedirection();
-    } catch (error) {
-      console.error("Error saving credentials:", error);
-      // Можно показать сообщение об ошибке пользователю
+      if (!res.ok) {
+        throw new Error("Invalid credentials");
+      }
+      setInfo({
+        name: usernameValue,
+      });
+      navigate("/"); // logged in
+    } catch (err) {
+      console.error(err);
     }
   };
 
   // Показываем лоадер пока проверяется аутентификация
-  if (isCheckingAuth) {
-    return (
-      <div className="min-h-screen bg-linear-to-br from-gray-900 to-black text-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">Checking authentication...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-linear-to-br from-gray-900 to-black text-white">
@@ -126,6 +96,44 @@ export default function SignIn() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Username Field */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="font-medium text-gray-300">
+                      Username
+                    </label>
+                    {!isUsernameValid && usernameValue && (
+                      <span className="text-xs px-3 py-1 bg-red-900/30 text-red-300 rounded-full">
+                        Min 3 chars
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="relative">
+                    <input
+                      type="text"
+                      value={usernameValue}
+                      onChange={(e) => setUsernameValue(e.target.value)}
+                      className={`w-full bg-gray-900 border ${
+                        !isUsernameValid && usernameValue
+                          ? "border-red-500/50"
+                          : "border-gray-600"
+                      } rounded-xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition placeholder-gray-500`}
+                      placeholder="your_username"
+                      required
+                    />
+                    <div className="absolute right-4 top-4">
+                      <span className="text-gray-500">👤</span>
+                    </div>
+                  </div>
+
+                  {!isUsernameValid && usernameValue && (
+                    <div className="flex items-start gap-2 text-sm text-red-400 bg-red-900/20 p-3 rounded-lg border border-red-800/30">
+                      <span>⚠️</span>
+                      <span>Username must be at least 3 characters</span>
+                    </div>
+                  )}
+                </div>
                 {/* Email Field */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
