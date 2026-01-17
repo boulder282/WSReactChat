@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import useUserInfoStore from "./store/userInfoStore";
+import { Button } from "./components/ui/Button";
+import Input from "./components/ui/Input";
 
 export const ChatComponent = () => {
   const [messages, setMessages] = useState([]);
@@ -90,7 +92,7 @@ export const ChatComponent = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
         {/* Left Panel - Messages */}
-        <div className="lg:col-span-6 bg-gray-800/50 backdrop-blur-lg rounded-2xl p-6 border border-gray-700">
+        <div className="card lg:col-span-6">
           <div className="h-full flex flex-col">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold flex items-center gap-2">
@@ -156,8 +158,8 @@ export const ChatComponent = () => {
         </div>
 
         {/* Right Panel - Input & Actions */}
-        <div className="lg:col-span-3">
-          <div className="bg-gray-800/50 backdrop-blur-lg rounded-2xl p-6 border border-gray-700 h-full">
+        <div className="card lg:col-span-3">
+          <div className="card">
             <div className="space-y-6">
               <h2 className="text-xl font-bold mb-2 flex items-center gap-2">
                 <span className="p-2 bg-green-900/30 rounded-lg">✉️</span>
@@ -196,7 +198,7 @@ export const ChatComponent = () => {
               </div>
 
               {/* Message Input */}
-              <div className="bg-gradient-to-r from-gray-900/60 to-gray-800/60 rounded-xl p-5 border border-gray-700">
+              <div className="card">
                 <div className="flex items-center justify-between mb-3">
                   <label className="font-medium text-gray-300">
                     Your Message
@@ -206,50 +208,43 @@ export const ChatComponent = () => {
                   </span>
                 </div>
                 <div className="flex flex-col gap-3">
-                  <textarea
+                  <Input
                     value={messageValue}
-                    onChange={(e) => setMessageValue(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Write your message here..."
+                    onChange={setMessageValue}
+                    placeholder="Type your message..."
                     disabled={!isConnected}
-                    maxLength={500}
-                    className="flex-1 bg-gray-800 border border-gray-600 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition min-h-[120px] resize-none"
-                    rows={4}
-                  />
+                    onKeyDown={handleKeyDown}
+                    variant="default"
+                  ></Input>
                   <div className="flex justify-between items-center">
-                    <button
+                    <Button
                       onClick={() => sendMessage(messageValue)}
-                      disabled={!isConnected || !messageValue.trim()}
-                      className={`px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl font-medium transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2 ${
-                        !isConnected || !messageValue.trim()
-                          ? "opacity-50 cursor-not-allowed"
-                          : "hover:from-blue-700 hover:to-blue-800"
-                      }`}
+                      variant="blue"
+                      isDisabled={!isConnected || !messageValue.trim()}
                     >
-                      <span>📤</span>
-                      Send Message
-                    </button>
-                    <button
-                      onClick={() => setMessageValue("")}
-                      className="px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 rounded-lg transition"
+                      📤 Send Message
+                    </Button>
+                    <Button
+                      variant="gray"
+                      onClick={() => sendMessage(messageValue)}
                     >
                       Clear
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="space-y-3">
-                <button
-                  onClick={() => navigate("/userinfo")}
-                  className="w-full py-3 bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 rounded-xl font-medium transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+                <Button
+                  onClick={() => navigate("/")}
+                  variant="purple"
+                  fullWidth
                 >
-                  <span className="p-2 bg-purple-900/30 rounded-lg">👤</span>
-                  Go to Profile Settings
-                </button>
+                  👤 Go to Profile Settings
+                </Button>
 
-                <div className="p-4 bg-gradient-to-r from-blue-900/20 to-purple-900/20 rounded-xl border border-blue-800/30">
+                <div className="card">
                   <p className="text-sm text-gray-300 mb-2">💡 Quick Tip</p>
                   <p className="text-xs text-gray-400">
                     Press{" "}

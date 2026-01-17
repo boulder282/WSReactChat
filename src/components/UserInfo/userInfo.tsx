@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useUserInfoStore from "../../store/userInfoStore";
 import AvatarUpload from "./avatarUpload";
 import { useNavigate } from "react-router";
+import { currentUser } from "../../api/fetchPeople";
+import { useQuery } from "@tanstack/react-query";
 
 const UserInfo = () => {
+  const { data } = useQuery({
+    queryKey: ["repoData"],
+    queryFn: () => currentUser(),
+  });
   const { info, setInfo, clearInfo } = useUserInfoStore();
   const [formData, setFormData] = useState({
     name: info.name || "",
@@ -75,6 +81,9 @@ const UserInfo = () => {
     clearInfo();
     setFormData({ name: "", bio: "", age: "" });
   };
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-6">

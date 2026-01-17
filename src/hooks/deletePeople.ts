@@ -1,6 +1,6 @@
 // hooks/useDeletePerson.ts
 import { useState } from "react";
-import { peopleApi } from "../fetch/fetchPeople";
+import { peopleApi } from "../api/fetchPeople";
 
 export const useDeletePerson = () => {
   const [isDeleting, setIsDeleting] = useState(false);

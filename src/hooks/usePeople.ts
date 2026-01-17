@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { peopleApi } from "../fetch/fetchPeople";
+import { peopleApi } from "../api/fetchPeople";
 
 export interface Person {
   id: number;

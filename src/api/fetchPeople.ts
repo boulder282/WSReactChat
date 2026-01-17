@@ -59,3 +59,9 @@ export const peopleApi = () => ({
     return result.data;
   },
 });
+
+export const currentUser = async () => {
+  const response = await fetch(`${API_BASE}/user`);
+  const result = await response.json();
+  return result.data;
+};
