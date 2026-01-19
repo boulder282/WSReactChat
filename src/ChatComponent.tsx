@@ -3,6 +3,8 @@ import { useNavigate } from "react-router";
 import useUserInfoStore from "./store/userInfoStore";
 import { Button } from "./components/ui/Button";
 import Input from "./components/ui/Input";
+import MainNavigation from "./components/LeftSideBar/Chats/Settings/MiniLeftDrawer";
+import MiniLeftDrawer from "./components/LeftSideBar/Chats/Settings/MiniLeftDrawer";
 
 export const ChatComponent = () => {
   const [messages, setMessages] = useState([]);
@@ -90,174 +92,102 @@ export const ChatComponent = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-9 gap-6">
-        {/* Left Panel - Messages */}
-        <div className="card lg:col-span-6">
-          <div className="h-full flex flex-col">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold flex items-center gap-2">
-                <span className="p-2 bg-blue-900/30 rounded-lg">💬</span>
-                Messages
-              </h2>
-              <div className="text-sm text-gray-400">
-                {messages.length} message{messages.length !== 1 ? "s" : ""}
-              </div>
-            </div>
+      <MiniLeftDrawer />
 
-            {/* Messages Container */}
-            <div className="flex-1 bg-gray-900/60 rounded-xl p-4 border border-gray-700 overflow-y-auto max-h-[60vh]">
-              {messages.length === 0 ? (
-                <div className="h-full flex items-center justify-center text-gray-500 italic">
-                  No messages yet. Start the conversation!
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {messages.map((msg, index) => (
-                    <div
-                      key={index}
-                      className={`p-4 rounded-xl ${
-                        msg.type === "system"
-                          ? "bg-blue-900/20 border border-blue-800/30"
-                          : "bg-gray-800/50"
-                      }`}
-                    >
-                      {msg.type === "system" ? (
-                        <div className="flex items-center gap-2 text-blue-300">
-                          <span className="text-lg">⚡</span>
-                          <div>
-                            <p className="font-medium">System</p>
-                            <p className="text-gray-300">{msg.message}</p>
-                          </div>
-                        </div>
-                      ) : (
-                        <div>
-                          <div className="flex items-center gap-2 mb-2">
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                              <span className="text-sm font-bold">
-                                {msg.username?.[0]?.toUpperCase() || "U"}
-                              </span>
-                            </div>
-                            <p className="font-bold text-gray-200">
-                              {msg.username}
-                            </p>
-                            <span className="text-xs text-gray-500 ml-auto">
-                              {msg.timestamp || "Just now"}
-                            </span>
-                          </div>
-                          <p className="text-gray-300 ml-10">
-                            {msg.text || msg.message}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+      {/* Right Panel - Input & Actions */}
+      <div className="card lg:col-span-3">
+        <div className="card">
+          <div className="space-y-6">
+            <h2 className="text-xl font-bold mb-2 flex items-center gap-2">
+              <span className="p-2 bg-green-900/30 rounded-lg">✉️</span>
+              Send Message
+            </h2>
 
-        {/* Right Panel - Input & Actions */}
-        <div className="card lg:col-span-3">
-          <div className="card">
-            <div className="space-y-6">
-              <h2 className="text-xl font-bold mb-2 flex items-center gap-2">
-                <span className="p-2 bg-green-900/30 rounded-lg">✉️</span>
-                Send Message
-              </h2>
-
-              {/* Connection Status Card */}
-              <div className="bg-gradient-to-r from-gray-900/60 to-gray-800/60 rounded-xl p-5 border border-gray-700">
-                <div className="flex items-center justify-between mb-3">
-                  <label className="font-medium text-gray-300">
-                    Connection
-                  </label>
-                  <span
-                    className={`text-xs px-2 py-1 rounded ${
-                      isConnected
-                        ? "bg-green-900/30 text-green-300"
-                        : "bg-red-900/30 text-red-300"
-                    }`}
-                  >
-                    {isConnected ? "Active" : "Inactive"}
-                  </span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`w-full h-2 rounded-full ${
-                      isConnected ? "bg-green-500/30" : "bg-red-500/30"
-                    }`}
-                  >
-                    <div
-                      className={`h-full rounded-full transition-all duration-300 ${
-                        isConnected ? "w-full bg-green-500" : "w-1/4 bg-red-500"
-                      }`}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Message Input */}
-              <div className="card">
-                <div className="flex items-center justify-between mb-3">
-                  <label className="font-medium text-gray-300">
-                    Your Message
-                  </label>
-                  <span className="text-xs px-2 py-1 bg-gray-700 text-gray-300 rounded">
-                    {messageValue.length}/500
-                  </span>
-                </div>
-                <div className="flex flex-col gap-3">
-                  <Input
-                    value={messageValue}
-                    onChange={setMessageValue}
-                    placeholder="Type your message..."
-                    disabled={!isConnected}
-                    onKeyDown={handleKeyDown}
-                    variant="default"
-                  ></Input>
-                  <div className="flex justify-between items-center">
-                    <Button
-                      onClick={() => sendMessage(messageValue)}
-                      variant="blue"
-                      isDisabled={!isConnected || !messageValue.trim()}
-                    >
-                      📤 Send Message
-                    </Button>
-                    <Button
-                      variant="gray"
-                      onClick={() => sendMessage(messageValue)}
-                    >
-                      Clear
-                    </Button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="space-y-3">
-                <Button
-                  onClick={() => navigate("/")}
-                  variant="purple"
-                  fullWidth
+            {/* Connection Status Card */}
+            <div className="bg-gradient-to-r from-gray-900/60 to-gray-800/60 rounded-xl p-5 border border-gray-700">
+              <div className="flex items-center justify-between mb-3">
+                <label className="font-medium text-gray-300">Connection</label>
+                <span
+                  className={`text-xs px-2 py-1 rounded ${
+                    isConnected
+                      ? "bg-green-900/30 text-green-300"
+                      : "bg-red-900/30 text-red-300"
+                  }`}
                 >
-                  👤 Go to Profile Settings
-                </Button>
-
-                <div className="card">
-                  <p className="text-sm text-gray-300 mb-2">💡 Quick Tip</p>
-                  <p className="text-xs text-gray-400">
-                    Press{" "}
-                    <kbd className="px-2 py-1 bg-gray-800 rounded text-xs">
-                      Enter
-                    </kbd>{" "}
-                    to send,{" "}
-                    <kbd className="px-2 py-1 bg-gray-800 rounded text-xs">
-                      Shift+Enter
-                    </kbd>{" "}
-                    for new line
-                  </p>
+                  {isConnected ? "Active" : "Inactive"}
+                </span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div
+                  className={`w-full h-2 rounded-full ${
+                    isConnected ? "bg-green-500/30" : "bg-red-500/30"
+                  }`}
+                >
+                  <div
+                    className={`h-full rounded-full transition-all duration-300 ${
+                      isConnected ? "w-full bg-green-500" : "w-1/4 bg-red-500"
+                    }`}
+                  ></div>
                 </div>
+              </div>
+            </div>
+
+            {/* Message Input */}
+            <div className="card">
+              <div className="flex items-center justify-between mb-3">
+                <label className="font-medium text-gray-300">
+                  Your Message
+                </label>
+                <span className="text-xs px-2 py-1 bg-gray-700 text-gray-300 rounded">
+                  {messageValue.length}/500
+                </span>
+              </div>
+              <div className="flex flex-col gap-3">
+                <Input
+                  value={messageValue}
+                  onChange={setMessageValue}
+                  placeholder="Type your message..."
+                  disabled={!isConnected}
+                  onKeyDown={handleKeyDown}
+                  variant="default"
+                ></Input>
+                <div className="flex justify-between items-center">
+                  <Button
+                    onClick={() => sendMessage(messageValue)}
+                    variant="blue"
+                    isDisabled={!isConnected || !messageValue.trim()}
+                  >
+                    📤 Send Message
+                  </Button>
+                  <Button
+                    variant="gray"
+                    onClick={() => sendMessage(messageValue)}
+                  >
+                    Clear
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-3">
+              <Button onClick={() => navigate("/")} variant="purple" fullWidth>
+                👤 Go to Profile Settings
+              </Button>
+
+              <div className="card">
+                <p className="text-sm text-gray-300 mb-2">💡 Quick Tip</p>
+                <p className="text-xs text-gray-400">
+                  Press{" "}
+                  <kbd className="px-2 py-1 bg-gray-800 rounded text-xs">
+                    Enter
+                  </kbd>{" "}
+                  to send,{" "}
+                  <kbd className="px-2 py-1 bg-gray-800 rounded text-xs">
+                    Shift+Enter
+                  </kbd>{" "}
+                  for new line
+                </p>
               </div>
             </div>
           </div>
