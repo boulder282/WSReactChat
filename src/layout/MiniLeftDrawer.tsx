@@ -22,7 +22,7 @@ import contactsIcon from "@/shared/icons/contacts.svg";
 import message from "@/shared/icons/message.svg";
 import { useState } from "react";
 import UserInfoModal from "../features/user/userInfoModal";
-import FriendsModal from "../features/friends/friendList";
+import FriendsModal from "../features/friends/friendsModal";
 
 const DRAWER_WIDTH = 280;
 
