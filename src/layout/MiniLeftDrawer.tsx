@@ -16,13 +16,13 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import useUserInfoStore from "../store/userInfoStore";
-import personIcon from "@/shared/icons/person.svg";
-import settingsIcon from "@/shared/icons/settings.svg";
-import contactsIcon from "@/shared/icons/contacts.svg";
-import message from "@/shared/icons/message.svg";
+import personIcon from "../shared/icons/person.svg";
+import settingsIcon from "../shared/icons/settings.svg";
+import contactsIcon from "../shared/icons/contacts.svg";
+import message from "../shared/icons/message.svg";
 import { useState } from "react";
 import UserInfoModal from "../features/user/userInfoModal";
-import FriendsModal from "../features/friends/friendsModal";
+import FriendsModal from "@/features/friends/friendsModal";
 
 const DRAWER_WIDTH = 280;
 
