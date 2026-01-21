@@ -1,70 +1,58 @@
-import { Avatar } from "@mui/material";
-import { useEffect } from "react";
+import { Avatar, Stack, Typography, Button } from "@mui/material";
+import {
+  avatarSx,
+  usernameSx,
+  statusSx,
+  buttonSx,
+} from "./UserInfoModal.styles";
+import { BaseModal } from "@/shared/components/Modal/BaseModal";
+import {
+  getAvatar,
+  removeAvatar,
+  uploadAvatar,
+} from "@/shared/components/AvatarUpload/AvatarUpload";
+import { useState } from "react";
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  username?: string;
+  avatar?: string;
   isConnected?: boolean;
 }
 
-const UserInfoModal = ({ open, onClose, isConnected }: Props) => {
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [onClose]);
+const UserInfoModal = ({ open, onClose, username, isConnected }: Props) => {
+  const [avatar, setAvatar] = useState<string | undefined>(
+    getAvatar() ?? undefined,
+  );
 
-  if (!open) return null;
+  const handleClickAvatar = () => {
+    uploadAvatar((base64) => setAvatar(base64));
+  };
 
+  const handleRemove = () => {
+    removeAvatar(() => setAvatar(undefined));
+  };
   return (
-    <>
-      <div className="fixed inset-0 bg-black/40 z-40" onClick={onClose} />
+    <BaseModal open={open} onClose={onClose} title="User Info">
+      <Stack spacing={2} alignItems="center">
+        <Avatar src={avatar} sx={avatarSx} />
+        <Button variant="text" onClick={handleClickAvatar}>
+          Change Avatar
+        </Button>
+        <Button variant="text" color="error" onClick={handleRemove}>
+          Remove Avatar
+        </Button>
+        <Typography sx={usernameSx}>{username ?? "Username"}</Typography>
+        <Typography sx={statusSx}>
+          {isConnected ? "Online" : "Offline"}
+        </Typography>
 
-      <div className="fixed inset-0 flex items-center justify-center z-50">
-        <div
-          className="
-            w-full max-w-md
-            bg-[#17212b]
-            rounded-2xl
-            px-4 pb-4 pt-4
-            shadow-xl
-          "
-        >
-          <div className="flex flex-col items-center text-center mb-5">
-            <Avatar
-              style={{ height: 100, width: 100 }}
-              src={localStorage.getItem("userAvatar") ?? ""}
-            />
-
-            <h2 className="text-base font-semibold text-white">Username</h2>
-
-            <p className="text-sm text-gray-400">
-              {isConnected ? "online" : "offline"}
-            </p>
-          </div>
-
-          <div className="flex flex-col gap-1">
-            <button className="tg-action">✏️ Edit profile</button>
-          </div>
-
-          {/* Close */}
-          <button
-            onClick={onClose}
-            className="
-              w-full mt-3 py-2
-              text-sm
-              text-gray-400
-              hover:text-white
-              transition
-            "
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </>
+        <Button variant="outlined" fullWidth sx={buttonSx}>
+          ✏️ Edit profile
+        </Button>
+      </Stack>
+    </BaseModal>
   );
 };
 
