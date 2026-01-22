@@ -15,82 +15,73 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import useUserInfoStore from "../store/userInfoStore";
-import personIcon from "../shared/icons/person.svg";
-import settingsIcon from "../shared/icons/settings.svg";
-import contactsIcon from "../shared/icons/contacts.svg";
-import message from "../shared/icons/message.svg";
 import { useState } from "react";
-import UserInfoModal from "../features/user/userInfoModal";
+
 import FriendsModal from "@/features/friends/friendsModal";
 
-const DRAWER_WIDTH = 280;
+import message from "../../shared/icons/message.svg";
+
+import {
+  rootBox,
+  sideBar,
+  sideBarStack,
+  drawerHeader,
+  userInfoBox,
+  drawerSx,
+} from "./styles";
+import useUserInfoStore from "@/store/userInfoStore";
+import UserInfoModal from "@/features/user/userInfoModal";
+import { MENU_ITEMS, type MenuAction } from "./menuItems";
 
 interface Props {
   isConnected?: boolean;
 }
 
-export default function ModalLeftDrawer({ isConnected }: Props) {
+export default function MiniLeftDrawer({ isConnected }: Props) {
   const { info } = useUserInfoStore();
   const [open, setOpen] = useState(false);
   const [friendsOpen, setFriendsOpen] = useState(false);
   const [openUserInfo, setOpenUserInfo] = useState(false);
 
-  const handleMenuClick = (text: string) => {
+  const avatar = localStorage.getItem("userAvatar") ?? "";
+
+  const handleMenuAction = (action: MenuAction) => {
     setOpen(false);
 
-    if (text === "Contacts") setFriendsOpen(true);
-    if (text === "My Profile") setOpenUserInfo(true);
+    if (action === "contacts") setFriendsOpen(true);
+    if (action === "profile") setOpenUserInfo(true);
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={rootBox}>
       <CssBaseline />
 
-      <Box
-        sx={{
-          position: "inherit",
-          top: 0,
-          left: 0,
-          width: 64,
-          height: "100vh",
-          bgcolor: "#1f2937",
-          zIndex: (theme) => theme.zIndex.appBar,
-        }}
-      >
-        <Stack spacing={1} alignItems="center" pt={1}>
+      {/* Left mini sidebar */}
+      <Box sx={sideBar}>
+        <Stack spacing={1} sx={sideBarStack}>
           <IconButton color="inherit" onClick={() => setOpen(true)}>
             <MenuIcon />
           </IconButton>
+
           <IconButton color="inherit">
             <img src={message} alt="Messages" width={24} height={24} />
           </IconButton>
         </Stack>
       </Box>
 
+      {/* Drawer */}
       <Drawer
         variant="temporary"
         open={open}
         onClose={() => setOpen(false)}
         ModalProps={{ keepMounted: true }}
-        sx={{
-          "& .MuiDrawer-paper": {
-            width: DRAWER_WIDTH,
-          },
-        }}
+        sx={drawerSx}
       >
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            px: 2,
-            py: 1.5,
-          }}
-        >
+        <Box sx={drawerHeader}>
           <Stack direction="row" spacing={1.5} alignItems="center">
-            <Avatar src={localStorage.getItem("userAvatar") ?? ""} />
-            <Box>
+            <Avatar src={avatar} />
+
+            <Box sx={userInfoBox}>
               <Typography fontWeight={600} noWrap>
                 {info?.name}
               </Typography>
@@ -108,21 +99,9 @@ export default function ModalLeftDrawer({ isConnected }: Props) {
         <Divider />
 
         <List>
-          {[
-            {
-              text: "My Profile",
-              icon: personIcon,
-              action: () => setOpenUserInfo(true),
-            },
-            { text: "Settings", icon: settingsIcon },
-            {
-              text: "Contacts",
-              icon: contactsIcon,
-              action: () => setFriendsOpen(true),
-            },
-          ].map(({ text, icon }) => (
+          {MENU_ITEMS.map(({ text, icon, action }) => (
             <ListItem key={text} disablePadding>
-              <ListItemButton onClick={() => handleMenuClick(text)}>
+              <ListItemButton onClick={() => handleMenuAction(action)}>
                 <ListItemIcon>
                   <img src={icon} alt={text} />
                 </ListItemIcon>

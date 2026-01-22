@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import useUserInfoStore from "./store/userInfoStore";
 import Input from "./shared/components/ui/Input";
 import { Button } from "./shared/components/ui/Button";
-import MiniLeftDrawer from "./layout/MiniLeftDrawer";
+import MiniLeftDrawer from "./layout/LeftDrawer.tsx/MiniLeftDrawer";
 
 export const ChatComponent = () => {
   const [messages, setMessages] = useState([]);
