@@ -3,7 +3,7 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import SignIn from "./features/auth/SignIn";
 import App from "./App";
-import { ChatComponent } from "./ChatComponent";
+import { ChatComponent } from "./layout/ChatComponent/ChatComponent";
 import "./index.css";
 
 const router = createBrowserRouter([
