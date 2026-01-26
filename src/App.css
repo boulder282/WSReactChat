@@ -1,4 +1,6 @@
-@import "tailwindcss";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 .card {
   @apply bg-gray-800/50 backdrop-blur-lg rounded-2xl p-6 border border-gray-700;
