@@ -1,9 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import useUserInfoStore from "./store/userInfoStore";
-import Input from "./shared/components/ui/Input";
-import { Button } from "./shared/components/ui/Button";
-import MiniLeftDrawer from "./layout/LeftDrawer.tsx/MiniLeftDrawer";
+import { Button } from "./components/ui/Button";
+import Input from "./components/ui/Input";
 
 export const ChatComponent = () => {
   const [messages, setMessages] = useState([]);
@@ -63,7 +62,6 @@ export const ChatComponent = () => {
   };
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white p-6">
-      <MiniLeftDrawer />
       {/* Header */}
       <div className="flex items-center justify-between mb-8 pb-6 border-b border-gray-700">
         <div className="flex items-center gap-4">
