@@ -36,7 +36,6 @@ const Input = ({
       maxLength={maxLength}
       onKeyDown={onKeyDown}
       className={`
-        w-full
         bg-gray-800
         border
         rounded-xl
