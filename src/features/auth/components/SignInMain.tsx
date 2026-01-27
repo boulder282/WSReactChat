@@ -1,6 +1,6 @@
-import Input from "@/shared/components/ui/Input";
+import Input from "@/shared/components/ui/input/Input";
 import { SecurityBadge } from "./SecurityBadge";
-import { Button } from "@/shared/components/ui/Button";
+import { Button } from "@/shared/components/ui/button/Button";
 
 type Props = {
   handleSubmit: (e: React.FormEvent) => void;
