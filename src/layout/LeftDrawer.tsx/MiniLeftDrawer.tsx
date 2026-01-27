@@ -17,8 +17,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { useState } from "react";
 
-import FriendsModal from "@/features/friends/friendsModal";
-
 import message from "../../shared/icons/message.svg";
 
 import {
@@ -29,15 +27,12 @@ import {
   userInfoBox,
   drawerSx,
 } from "./styles";
-import useUserInfoStore from "@/store/userInfoStore";
-import { MENU_ITEMS, type MenuAction } from "./menuItems";
-import { useChatSocket } from "@/hooks/useChatSocket";
-import UserInfoModal from "@/features/user/UserModal/userInfoModal";
+import useUserInfoStore from "../../store/userInfoStore";
+import { useChatSocket } from "../../hooks/useChatSocket";
 
 export default function MiniLeftDrawer() {
   const { info } = useUserInfoStore();
   const [open, setOpen] = useState(false);
-  const [friendsOpen, setFriendsOpen] = useState(false);
   const [openUserInfo, setOpenUserInfo] = useState(false);
   const { isConnected } = useChatSocket("ws://localhost:3000");
 
@@ -46,7 +41,6 @@ export default function MiniLeftDrawer() {
   const handleMenuAction = (action: MenuAction) => {
     setOpen(false);
 
-    if (action === "contacts") setFriendsOpen(true);
     if (action === "profile") setOpenUserInfo(true);
   };
 
@@ -110,7 +104,6 @@ export default function MiniLeftDrawer() {
         </List>
       </Drawer>
 
-      <FriendsModal open={friendsOpen} onClose={() => setFriendsOpen(false)} />
       <UserInfoModal
         open={openUserInfo}
         onClose={() => setOpenUserInfo(false)}
