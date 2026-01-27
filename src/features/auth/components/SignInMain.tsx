@@ -1,6 +1,5 @@
-import Input from "@/shared/components/ui/input/Input";
-import { SecurityBadge } from "./SecurityBadge";
-import { Button } from "@/shared/components/ui/button/Button";
+import { Button } from "../../../shared/components/ui/button/Button";
+import Input from "../../../shared/components/ui/input/Input";
 
 type Props = {
   handleSubmit: (e: React.FormEvent) => void;
@@ -69,8 +68,6 @@ export function SignInMain({
               Sign In
             </Button>
           </form>
-
-          <SecurityBadge />
         </div>
       </div>
     </div>

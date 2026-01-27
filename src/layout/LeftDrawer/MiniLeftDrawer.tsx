@@ -15,9 +15,8 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import { useState } from "react";
 
-import message from "../../shared/icons/message.svg";
+import { useState } from "react";
 
 import {
   rootBox,
@@ -28,19 +27,26 @@ import {
   drawerSx,
 } from "./styles";
 import useUserInfoStore from "../../store/userInfoStore";
-import { useChatSocket } from "../../hooks/useChatSocket";
+import { MENU_ITEMS, type MenuAction } from "./menuItems";
+import FriendsModal from "../../features/friends/friendsModal";
+import UserInfoModal from "../../features/user/UserModal/userInfoModal";
 
-export default function MiniLeftDrawer() {
+interface Props {
+  isConnected?: boolean;
+}
+
+export default function MiniLeftDrawer({ isConnected }: Props) {
   const { info } = useUserInfoStore();
   const [open, setOpen] = useState(false);
+  const [friendsOpen, setFriendsOpen] = useState(false);
   const [openUserInfo, setOpenUserInfo] = useState(false);
-  const { isConnected } = useChatSocket("ws://localhost:3000");
 
   const avatar = localStorage.getItem("userAvatar") ?? "";
 
   const handleMenuAction = (action: MenuAction) => {
     setOpen(false);
 
+    if (action === "contacts") setFriendsOpen(true);
     if (action === "profile") setOpenUserInfo(true);
   };
 
@@ -48,15 +54,10 @@ export default function MiniLeftDrawer() {
     <Box sx={rootBox}>
       <CssBaseline />
 
-      {/* Left mini sidebar */}
       <Box sx={sideBar}>
         <Stack spacing={1} sx={sideBarStack}>
           <IconButton color="inherit" onClick={() => setOpen(true)}>
             <MenuIcon />
-          </IconButton>
-
-          <IconButton color="inherit">
-            <img src={message} alt="Messages" width={24} height={24} />
           </IconButton>
         </Stack>
       </Box>
@@ -82,12 +83,10 @@ export default function MiniLeftDrawer() {
               </Typography>
             </Box>
           </Stack>
-
           <IconButton onClick={() => setOpen(false)}>
             <ChevronLeftIcon />
           </IconButton>
         </Box>
-
         <Divider />
 
         <List>
@@ -103,10 +102,11 @@ export default function MiniLeftDrawer() {
           ))}
         </List>
       </Drawer>
-
+      <FriendsModal open={friendsOpen} onClose={() => setFriendsOpen(false)} />
       <UserInfoModal
         open={openUserInfo}
         onClose={() => setOpenUserInfo(false)}
+        isConnected={isConnected}
       />
     </Box>
   );

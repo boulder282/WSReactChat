@@ -1,18 +1,16 @@
 import { useState } from "react";
-import useUserInfoStore from "@/store/userInfoStore";
-
-import { BaseModal } from "@/shared/components/Modal/BaseModal";
-import { Button } from "@/shared/components/ui/button/Button";
-
-import {
-  getAvatar,
-  removeAvatar,
-  uploadAvatar,
-} from "@/shared/components/AvatarUpload/AvatarUpload";
 
 import "./UserInfoModal.styles.css";
 import { EditModeContent } from "../Modes/editmode/editUserInfo";
 import { ViewModeContent } from "../Modes/viewmode/viewMode";
+import useUserInfoStore from "../../../store/userInfoStore";
+import { BaseModal } from "../../../shared/components/Modal/BaseModal";
+import { Button } from "../../../shared/components/ui/button/Button";
+import {
+  getAvatar,
+  removeAvatar,
+  uploadAvatar,
+} from "../../../shared/components/AvatarUpload/avatarUpload";
 
 interface UserInfoModalProps {
   open: boolean;

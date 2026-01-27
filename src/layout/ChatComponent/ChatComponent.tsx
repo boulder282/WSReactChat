@@ -1,9 +1,9 @@
 import { useState, useCallback } from "react";
 import useUserInfoStore from "../../store/userInfoStore";
-import MiniLeftDrawer from "../LeftDrawer.tsx/MiniLeftDrawer";
+import MiniLeftDrawer from "../LeftDrawer/MiniLeftDrawer";
 import { useChatSocket } from "../../hooks/useChatSocket";
 import "./chat.styles.css";
-import Input from "@/shared/components/ui/input/Input";
+import Input from "../../shared/components/ui/input/Input";
 
 export const ChatComponent = () => {
   const [messageValue, setMessageValue] = useState("");

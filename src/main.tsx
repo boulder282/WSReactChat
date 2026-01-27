@@ -1,10 +1,10 @@
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
-import SignIn from "./features/auth/SignIn";
 import App from "./App";
 import "./index.css";
 import { ChatComponent } from "./layout/ChatComponent/ChatComponent";
+import SignIn from "./components/registration/registrationForm";
 
 const router = createBrowserRouter([
   {

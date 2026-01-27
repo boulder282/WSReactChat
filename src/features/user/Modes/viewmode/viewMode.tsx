@@ -1,5 +1,5 @@
-import { Button } from "@/shared/components/ui/button/Button";
 import { Avatar, Stack, Typography } from "@mui/material";
+import { Button } from "../../../../shared/components/ui/button/Button";
 
 type ViewModeProps = {
   avatar?: string;

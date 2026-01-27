@@ -1,6 +1,6 @@
-import { Button } from "@/shared/components/ui/button/Button";
-import Input from "@/shared/components/ui/input/Input";
 import { Avatar, Stack, Typography } from "@mui/material";
+import { Button } from "../../../../shared/components/ui/button/Button";
+import Input from "../../../../shared/components/ui/input/Input";
 
 type EditModeProps = {
   avatar?: string;
