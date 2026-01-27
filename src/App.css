@@ -1,5 +1,8 @@
-@import "tailwindcss";
-
 .card {
-  @apply bg-gray-800/50 backdrop-blur-lg rounded-2xl p-6 border border-gray-700;
+  background-color: rgba(31, 41, 55, 0.5); /* bg-gray-800/50 */
+  backdrop-filter: blur(16px); /* backdrop-blur-lg */
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 1rem; /* rounded-2xl */
+  padding: 1.5rem; /* p-6 */
+  border: 1px solid #374151; /* border-gray-700 */
 }
