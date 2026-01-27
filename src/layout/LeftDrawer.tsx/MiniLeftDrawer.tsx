@@ -32,16 +32,14 @@ import {
 import useUserInfoStore from "@/store/userInfoStore";
 import UserInfoModal from "@/features/user/userInfoModal";
 import { MENU_ITEMS, type MenuAction } from "./menuItems";
+import { useChatSocket } from "@/hooks/useChatSocket";
 
-interface Props {
-  isConnected?: boolean;
-}
-
-export default function MiniLeftDrawer({ isConnected }: Props) {
+export default function MiniLeftDrawer() {
   const { info } = useUserInfoStore();
   const [open, setOpen] = useState(false);
   const [friendsOpen, setFriendsOpen] = useState(false);
   const [openUserInfo, setOpenUserInfo] = useState(false);
+  const { isConnected } = useChatSocket("ws://localhost:3000");
 
   const avatar = localStorage.getItem("userAvatar") ?? "";
 

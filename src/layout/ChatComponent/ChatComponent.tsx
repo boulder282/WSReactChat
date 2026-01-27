@@ -33,7 +33,7 @@ export const ChatComponent = () => {
       <div className="chat-main">
         <div className="chat-header">
           <div>
-            <h2 className="chat-title">Chat</h2>
+            <h3 className="chat-title">Chat</h3>
             <p className="chat-status">{isConnected ? "online" : "offline"}</p>
           </div>
 
