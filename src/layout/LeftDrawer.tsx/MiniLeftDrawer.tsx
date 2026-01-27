@@ -30,9 +30,9 @@ import {
   drawerSx,
 } from "./styles";
 import useUserInfoStore from "@/store/userInfoStore";
-import UserInfoModal from "@/features/user/userInfoModal";
 import { MENU_ITEMS, type MenuAction } from "./menuItems";
 import { useChatSocket } from "@/hooks/useChatSocket";
+import UserInfoModal from "@/features/user/UserModal/userInfoModal";
 
 export default function MiniLeftDrawer() {
   const { info } = useUserInfoStore();
@@ -114,7 +114,6 @@ export default function MiniLeftDrawer() {
       <UserInfoModal
         open={openUserInfo}
         onClose={() => setOpenUserInfo(false)}
-        isConnected={isConnected}
       />
     </Box>
   );

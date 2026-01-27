@@ -1,13 +1,12 @@
 import { useState, useCallback } from "react";
-import { useNavigate } from "react-router";
 import useUserInfoStore from "../../store/userInfoStore";
 import MiniLeftDrawer from "../LeftDrawer.tsx/MiniLeftDrawer";
 import { useChatSocket } from "../../hooks/useChatSocket";
 import "./chat.styles.css";
+import Input from "@/shared/components/ui/input/Input";
 
 export const ChatComponent = () => {
   const [messageValue, setMessageValue] = useState("");
-  const navigate = useNavigate();
   const { info } = useUserInfoStore();
 
   const { messages, isConnected, sendMessage } = useChatSocket(
@@ -36,10 +35,6 @@ export const ChatComponent = () => {
             <h3 className="chat-title">Chat</h3>
             <p className="chat-status">{isConnected ? "online" : "offline"}</p>
           </div>
-
-          <button onClick={() => navigate("/")} className="chat-profile">
-            Profile
-          </button>
         </div>
 
         <div className="chat-messages">
@@ -68,13 +63,12 @@ export const ChatComponent = () => {
 
         <div className="chat-input-wrapper">
           <div className="chat-input-row">
-            <input
+            <Input
               value={messageValue}
-              onChange={(e) => setMessageValue(e.target.value)}
+              onChange={(e) => setMessageValue(e)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
               disabled={!isConnected}
               placeholder={isConnected ? "Write a message..." : "Connecting..."}
-              className="chat-input"
             />
 
             <button
