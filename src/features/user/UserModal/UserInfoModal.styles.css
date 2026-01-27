@@ -1,0 +1,102 @@
+.user-info-modal__content {
+  padding: 24px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.user-info-modal__footer {
+  padding: 0 20px 24px;
+}
+
+/* ── View mode ── */
+.user-info-modal__view-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.user-info-modal__avatar--large {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.user-info-modal__avatar-actions {
+  margin: 12px 0;
+}
+
+.user-info-modal__username {
+  font-size: 1.375rem;
+  font-weight: 600;
+  color: #000;
+  text-align: center;
+}
+
+.user-info-modal__status {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.user-info-modal__status--online {
+  color: #31b545;
+  font-weight: 500;
+}
+
+.user-info-modal__status--offline {
+  color: #8e8e93;
+}
+
+.user-info-modal__main-action {
+  margin-top: 16px;
+}
+
+/* ── Edit mode ── */
+.user-info-modal__edit-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.user-info-modal__avatar--medium {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-info-modal__avatar-section {
+  margin-bottom: 12px;
+}
+
+.user-info-modal__field {
+  width: 100%;
+}
+
+.user-info-modal__label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #606060;
+  margin-bottom: 6px;
+}
+
+.user-info-modal__hint {
+  margin-top: 6px;
+  color: #8e8e93;
+  font-size: 0.75rem;
+}
+
+.user-info-modal__content {
+  padding: 24px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.user-info-modal__footer {
+  padding: 0 20px 24px;
+}
