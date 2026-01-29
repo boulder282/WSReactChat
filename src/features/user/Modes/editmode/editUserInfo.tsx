@@ -1,6 +1,7 @@
 import { Avatar, Stack, Typography } from "@mui/material";
 import { Button } from "../../../../shared/components/ui/button/Button";
 import Input from "../../../../shared/components/ui/input/Input";
+import { styles, spacing } from "./EditModeContent.styles";
 
 type EditModeProps = {
   avatar?: string;
@@ -18,21 +19,12 @@ export function EditModeContent({
   onUsernameChange,
 }: EditModeProps) {
   return (
-    <Stack spacing={3} sx={{ px: 1 }}>
+    <Stack spacing={spacing.stackSpacing} sx={styles.container}>
       {/* Avatar Section */}
-      <Stack alignItems="center" spacing={1.5}>
-        <Avatar
-          src={avatar}
-          alt={username || "User"}
-          sx={{
-            width: 96,
-            height: 96,
-            borderRadius: "50%",
-            boxShadow: "0 3px 12px rgba(0,0,0,0.12)",
-          }}
-        />
+      <Stack alignItems="center" spacing={spacing.avatarSectionSpacing}>
+        <Avatar src={avatar} alt={username || "User"} sx={styles.avatar} />
 
-        <Stack direction="row" spacing={1.5}>
+        <Stack direction="row" spacing={spacing.buttonStackSpacing}>
           <Button variant="gray" size="small" onClick={onUpload}>
             Change Photo
           </Button>
@@ -49,13 +41,7 @@ export function EditModeContent({
         <Typography
           component="label"
           htmlFor="username-input"
-          sx={{
-            display: "block",
-            fontSize: "0.875rem",
-            fontWeight: 500,
-            color: "#606060",
-            mb: 0.75,
-          }}
+          sx={styles.label}
         >
           Username
         </Typography>
@@ -66,15 +52,7 @@ export function EditModeContent({
           placeholder="Enter username"
         />
 
-        <Typography
-          variant="caption"
-          sx={{
-            mt: 1,
-            color: "#8e8e93",
-            fontSize: "0.75rem",
-            display: "block",
-          }}
-        >
+        <Typography variant="caption" sx={styles.helperText}>
           a–z, 0–9, underscores • minimum 5 characters
         </Typography>
       </div>
